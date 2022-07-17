@@ -56,7 +56,7 @@ printl (myTimer.GetTimeString (":", 5616.357)); // prints a string in the format
 ```
 #### Get Functions
 The following functions are also available, and might be useful:
-```java
+```javascript
 float GetHours ();			// amount of hours that have passed
 float GetMinutes ();		// amount of minutes that have passed
 float GetSeconds ();		// amount of seconds that have passed
