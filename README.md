@@ -18,16 +18,16 @@ myTimer.Start();
 ```javascript
 myTimer.End();
 local myElapsedTime = myTimer.GetTime());	// returns an array of float values
-											// index 0 = hours
-											// index 1 = minutes
-											// index 2 = seconds
-											// index 3 = milliseconds
+						// index 0 = hours
+						// index 1 = minutes
+						// index 2 = seconds
+						// index 3 = milliseconds
 ```
 *note: both Start() and End() also return time values in seconds, might be useful for debugging*
 #### Getting the elapsed time as a string
 Alternatively, if you wanted the output in string format, you can use GetTimeString () with the first parameter being an optional choice of delimiter (default is ":")
 ```javascript
-printl (myTimer.GetTimeString());		// prints a string in the format "(h)h:mm:ss:msmsms"
+printl (myTimer.GetTimeString());	// prints a string in the format "(h)h:mm:ss:msmsms"
 printl (myTimer.GetTimeString("-"));	// prints a string in the format "(h)h-mm-ss-msmsms"
 ```
 #### Notes
@@ -46,10 +46,10 @@ Besides being a timer module, this module is also useful for converting between 
 You can use the GetTime() and GetTimeString() functions to do this, as they accept an optional time parameter:
 ```javascript
 local time = myTimer.GetTime (5616.357);	// returns an array of float values
-											// index 0 = hours
-											// index 1 = minutes
-											// index 2 = seconds
-											// index 3 = milliseconds
+						// index 0 = hours
+						// index 1 = minutes
+						// index 2 = seconds
+						// index 3 = milliseconds
 ```
 ```javascript
 printl (myTimer.GetTimeString (":", 5616.357)); // prints a string in the format "(h)h:mm:ss:msmsms"
@@ -57,17 +57,17 @@ printl (myTimer.GetTimeString (":", 5616.357)); // prints a string in the format
 #### Get Functions
 The following functions are also available, and might be useful:
 ```javascript
-float GetHours ();			// amount of hours that have passed
+float GetHours ();		// amount of hours that have passed
 float GetMinutes ();		// amount of minutes that have passed
 float GetSeconds ();		// amount of seconds that have passed
-float GetMs();				// amount of milliseconds that have passed
+float GetMs();			// amount of milliseconds that have passed
 
 float GetMinutesTotal ();	// total amount of minutes that have passed
 float GetSecondsTotal ();	// total amount of seconds that have passed
 float GetMsTotal ();		// total amount of milliseconds that have passed
 
-bool Started ();			// whether the timer has been started
-bool Running ();			// whether the timer is currently running (has not been ended with End() or Reset()
+bool Started ();		// whether the timer has been started
+bool Running ();		// whether the timer is currently running (has not been ended with End() or Reset()
 ```
 
 ## Credits
