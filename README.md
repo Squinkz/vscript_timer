@@ -13,7 +13,7 @@ myTimer <- Timer();
 Then to start the timer, call Start() and to end the timer, call End(). After that you can retrieve the elapsed time with GetTime()
 
 ```javascript
-myTimer.Start();
+myTimer.Start();	// start counting
 ```
 ```javascript
 myTimer.End();
@@ -25,13 +25,13 @@ local myElapsedTime = myTimer.GetTime());	// returns an array of float values
 ```
 *note: both Start() and End() also return time values in seconds, might be useful for debugging*
 #### Getting the elapsed time as a string
-Alternatively, if you wanted the output in string format, you can use GetTimeString () with the first parameter being an optional choice of delimiter (default is ":")
+Alternatively, if you wanted the output in string format, you can use GetTimeString() with the first parameter being an optional choice of delimiter (default is ":")
 ```javascript
 printl (myTimer.GetTimeString());	// prints a string in the format "(h)h:mm:ss:msmsms"
 printl (myTimer.GetTimeString("-"));	// prints a string in the format "(h)h-mm-ss-msmsms"
 ```
 #### Notes
-You do *not* have to call End() to call GetTime() or GetTimeStr(). This can be useful for creating a stopwatch or clock with visual feedback - simply start the timer and call GetTime() every frame to update the clock.
+You do *not* have to call End() to call GetTime() or GetTimeString(). This can be useful for creating a stopwatch or clock with visual feedback - simply start the timer and call GetTime() every frame to update the clock.
 
 *note: Start() needs to be called before calling End(), GetTime() or GetTimeString()*
 #### Resetting the Timer
@@ -67,7 +67,7 @@ float GetSecondsTotal ();	// total amount of seconds that have passed
 float GetMsTotal ();		// total amount of milliseconds that have passed
 
 bool Started ();		// whether the timer has been started
-bool Running ();		// whether the timer is currently running (has not been ended with End() or Reset()
+bool Running ();		// whether the timer is currently running (has not been ended with End() or Reset())
 ```
 
 ## Credits
