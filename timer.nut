@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////
-//																	//
-//		Basic Timer Module											//
-//		Author: 	Dieter "Squink" Stassen							//
-//		License: 	WTFPL											//
-//		github:		https://github.com/Squinkz/vscript_timer		//
-//																	//
+//
+//		Basic Timer Module
+//		Author: 	Dieter "Squink" Stassen
+//		License: 	WTFPL
+//		github:		https://github.com/Squinkz/vscript_timer
+//
 //////////////////////////////////////////////////////////////////////
 
 class Timer
