@@ -81,6 +81,10 @@ float GetMinutesTotal()		// total number of minutes that have passed
 float GetSecondsTotal()		// total number of seconds that have passed
 float GetMsTotal()		// total number of milliseconds that have passed
 
+float GetStartTime()		// returns an array of the server time when the timer started (similar to GetTime)
+float GetEndTime()		// returns an array of the server time when the timer ended
+				// (or the current time, if the timer has not ended)
+
 bool Started()			// whether the timer has been started
 bool Running()			// whether the timer is currently running (has not been stopped with Stop() or Reset())
 bool Paused()			// whether the timer is currently paused
