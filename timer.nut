@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////
 //---------------------------------------------------------------//
-//----------------------Basic Timer Module-----------------------//
+//-------------------Basic Timer Module-v2.0---------------------//
 //---------------------------------------------------------------//
 //----  Author:    Dieter "Squink" Stassen                   ----//
 //----  License:   WTFPL                                     ----//
@@ -15,6 +15,7 @@ class Timer
 	endTime = null;
 	started = null;
 	running = null;
+	paused = null;
 	
 	constructor ()
 	{
@@ -22,6 +23,7 @@ class Timer
 		endTime = 0.0;
 		started = false;
 		running = false;
+		paused = null;
 	}
 	
 	function Reset ()
@@ -30,8 +32,9 @@ class Timer
 		this.endTime = 0.0;
 		this.started = false;
 		this.running = false;
+		this.paused = null;
 		
-		if (!(GetDeveloperLevel() < 2))
+		if (GetDeveloperLevel())
 			printl ("Timer reset");
 	}
 	
@@ -41,25 +44,70 @@ class Timer
 		this.startTime = Time();
 		this.started = true;
 		this.running = true;
+		this.paused = false;
 		
-		if (!(GetDeveloperLevel() < 2))
+		if (GetDeveloperLevel())
 			printl ("Timer started at " + this.startTime);
 		
 		return this.startTime;
 	}
 	
-	function End ()
+	function Pause ()
 	{
-		if (!this.started)
+		if (!this.started || !this.running)
 		{
-			printl ("Timer class: End() error - Timer has not started yet.");			
+			printl ("Timer class: Pause() error - Timer has not started yet.");			
+			return;
+		}
+		if (this.paused)
+		{
+			printl ("Timer class: Pause() error - Timer is already paused.");			
 			return;
 		}
 		
 		this.endTime = Time();
-		this.running = false;
+		this.paused = true;
 		
-		if (!(GetDeveloperLevel() < 2))
+		if (GetDeveloperLevel())
+			printl ("Timer paused at " + this.endTime);
+		
+		return this.endTime;
+	}
+	
+	function Resume ()
+	{
+		if (!this.paused)
+		{
+			printl ("Timer class: Resume() error - Timer is not paused");	
+			return;
+		}
+		
+		local resumeTime = Time();
+		this.startTime = resumeTime - (this.endTime - this.startTime);
+		this.paused = false;
+		
+		if (GetDeveloperLevel())
+			printl ("Timer resumed at " + resumeTime);
+		
+		return resumeTime;
+	}
+	
+	function Stop ()
+	{
+		if (!this.started)
+		{
+			printl ("Timer class: Stop() error - Timer has not started yet.");			
+			return;
+		}
+		
+		if (this.paused)
+			this.Resume();
+		
+		this.endTime = Time();
+		this.running = false;
+		this.paused = false;
+		
+		if (GetDeveloperLevel())
 			printl ("Timer ended at " + this.endTime);
 		
 		return this.endTime;
@@ -67,8 +115,9 @@ class Timer
 	
 	function GetTime (_time = null)
 	{
-		local timeArr = array(4, 0);
-		if (!this.started)
+		local timeArr = array(4, 0.0);
+		
+		if (!this.started && !_time)
 		{
 			printl ("Timer class: GetTime() error - Timer has not started yet.");	
 			return timeArr;
@@ -85,8 +134,7 @@ class Timer
 		local secs = floor(time);
 		local hours = floor(secs / 3600);
 		local mins = floor(secs / 60);
-		local msecs = (time - secs) * 1000;;
-		msecs = floor(msecs + 0.5);
+		local msecs = floor((time - secs) * 1000);
 		secs = secs - (mins * 60);
 		
 		timeArr[0] = hours;
@@ -102,36 +150,37 @@ class Timer
 		if (!this.startTime)
 		{
 			printl ("Timer class: GetStartTime() error - Timer has not started yet.");
-			return array(4, 0);
+			return array(4, 0.0);
 		}
 		return this.GetTime(this.startTime);
 	}
 	
 	function GetEndTime ()
 	{
-		if (!this.startTime || !this.endTime)
+		if (!this.startTime)
 		{
-			printl ("Timer class: GetEndTime() error - Timer has not started or ended yet. Returning current time.");
+			printl ("Timer class: GetEndTime() error - Timer has not started yet.");
+			return array(4, 0.0);
+		}
+		if (!this.endTime)
+		{
+			printl ("Timer class: GetEndTime() error - Timer has not ended yet. Returning current time.");
 			return this.GetTime(Time());
 		}
+		
 		return this.GetTime(this.endTime);
 	}
 	
 	function GetTimeString (_dlmtr = ":", _time = null)
 	{
-		local time = null;
-		if (_time)
-			time = this.GetTime(_time);
-		else
-			time = this.GetTime();
+		local time = this.GetTime(_time);
 		
 		local msecStr = "";
-		if (time[3] == 0)
-			msecStr = time[3] + "00";
+		if (time[3] < 10)
+			msecStr = "00";
 		else if (time[3] < 100)
-			msecStr = time[3] + "0";
-		else
-			msecStr = "" + time[3];
+			msecStr = "0";
+		msecStr += "" + time[3];
 		
 		local secStr = "";
 		if (time[2] < 10)
@@ -201,5 +250,10 @@ class Timer
 	function Running ()
 	{
 		return this.running;
+	}
+	
+	function Paused ()
+	{
+		return this.paused;
 	}
 }
