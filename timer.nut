@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////
 //---------------------------------------------------------------//
-//-------------------Basic Timer Module-v2.0---------------------//
+//-------------------Basic Timer Module-v2.2---------------------//
 //---------------------------------------------------------------//
 //----  Author:    Dieter "Squink" Stassen                   ----//
 //----  License:   WTFPL                                     ----//
@@ -118,7 +118,7 @@ class Timer
 	{
 		local timeArr = array(4, 0.0);
 
-		if (!this.started && !_time)
+		if (!_time && !this.started)
 		{
 			printl ("Timer class: GetTime() error - Timer has not started yet.");
 			return timeArr;
@@ -136,7 +136,8 @@ class Timer
 		local hours = floor(secs / 3600);
 		local mins = floor(secs / 60);
 		local msecs = floor((time - secs) * 1000);
-		secs = secs - (mins * 60);
+		secs -= mins * 60;
+		mins -= hours * 60;
 
 		timeArr[0] = hours;
 		timeArr[1] = mins;
