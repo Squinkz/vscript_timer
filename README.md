@@ -53,7 +53,7 @@ myTimer.Resume();		// resumes the timer called myTimer
 *notes:*
 * Start() always needs to be called before calling Stop(), Pause(), GetTime() or GetTimeString()
 * Pause() always needs to be called before Resume()
-* The functions Start(), End(), Pause() and Resume() also return raw server time in seconds, which might be useful for debugging.
+* The functions Start(), Stop(), Pause() and Resume() also return raw server time in seconds, which might be useful for debugging.
 #### Getting the elapsed time as a formatted string
 Alternatively, if you want to get the elapsed time as a formatted string, you can use the GetTimeString() function, with the first parameter being an optional choice of delimiter (default is ":").
 ```javascript
