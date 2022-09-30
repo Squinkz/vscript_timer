@@ -1,7 +1,8 @@
 
 # CS:GO VScript Timer Module
-This is a simple class to implement a basic timer. It does not rely on any entities and uses only Server Time, which theoretically should mean it's accurate at all tickrates.
-As well being a basic timer, you can also use it to convert Server Time (which is returned in seconds) to hours, minutes, seconds and milliseconds, as an array of floats or a formatted string.
+This is a simple class to implement a basic timer. It does not rely on any entities and uses only the server's time, which means it's accurate at all tickrates. It is also very cheap - you can create tens of thousands of timers with no performance impact.
+
+As well being a basic timer, it can also be used to convert Server Time (which is returned in seconds as a float) to hours, minutes, seconds and milliseconds, as an array of integers or a formatted string.
 
 ## Usage
 #### Start and Stop
@@ -13,17 +14,33 @@ myTimer <- Timer();		// create a new timer and store it in a variable called myT
 
 Then to start the timer, call Start() and to stop the timer, call Stop(). After that you can retrieve the elapsed time with GetTime(). You can also call GetTime() at any point after starting the timer to retrieve the elapsed time.
 *(Which means in practice, Stop() and Pause() behave almost the same, except after calling Stop(), the timer cannot be resumed.)*
+Passing in a float as an argument to Start will set a maximum time for the timer, after which Expired() will return true.
 
 ```javascript
-myTimer.Start();				// start counting
+myTimer.Start();				// start counting indefinitely
 ```
 ```javascript
 myTimer.Stop();					// stop counting
-local myElapsedTime = myTimer.GetTime());	// returns an array of float values
+local myElapsedTime = myTimer.GetTime();	// returns an array of float values
 						// index 0 = hours
 						// index 1 = minutes
 						// index 2 = seconds
 						// index 3 = milliseconds
+```
+```javascript
+myTimer.Start(30.0);				// start a timer that lasts for 30 seconds
+```
+Example Think function:
+```javascript
+function Think()
+{
+	UpdateClockEntities(myTimer.GetTime());		// get the time and update in game clock entities
+
+	if (myTimer.Expired())				// call the function DoSomething when the timer has expired
+		DoSomething();
+		
+	return FrameTime();
+}
 ```
 #### Pausing and Resuming
 To pause a timer, use the Pause() function and call Resume() when you're ready to begin again. The time spent paused will not count towards the total elapsed time.
