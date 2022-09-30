@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////
 //---------------------------------------------------------------//
-//-------------------Basic Timer Module-v2.2---------------------//
+//-------------------Basic Timer Module-v2.7---------------------//
 //---------------------------------------------------------------//
 //----  Author:    Dieter "Squink" Stassen                   ----//
 //----  License:   WTFPL                                     ----//
@@ -13,17 +13,21 @@ class Timer
 {
 	startTime = null;
 	endTime = null;
+	maxTime = null;
 	started = null;
 	running = null;
 	paused = null;
+	verbose = null;
 
-	constructor ()
+	constructor (_verbose = false)
 	{
 		startTime = 0.0;
 		endTime = 0.0;
+		maxTime = null;
 		started = false;
 		running = false;
 		paused = null;
+		verbose = _verbose;
 	}
 
 	function Reset ()
@@ -34,19 +38,20 @@ class Timer
 		this.running = false;
 		this.paused = null;
 
-		if (GetDeveloperLevel())
+		if (GetDeveloperLevel() && this.verbose)
 			printl ("Timer reset");
 	}
 
-	function Start ()
+	function Start (_max = null)
 	{
 		this.Reset();
 		this.startTime = Time();
+		this.maxTime = _max;
 		this.started = true;
 		this.running = true;
 		this.paused = false;
 
-		if (GetDeveloperLevel())
+		if (GetDeveloperLevel() && this.verbose)
 			printl ("Timer started at " + this.startTime);
 
 		return this.startTime;
@@ -54,21 +59,21 @@ class Timer
 
 	function Pause ()
 	{
-		if (!this.started || !this.running)
+		if (!this.started || !this.running);
 		{
-			printl ("Timer class: Pause() error - Timer has not started yet.");
+			if (this.verbose) printl ("Timer class: Pause() error - Timer has not started yet.");
 			return;
 		}
 		if (this.paused)
 		{
-			printl ("Timer class: Pause() error - Timer is already paused.");
+			if (this.verbose) printl ("Timer class: Pause() error - Timer is already paused.");
 			return;
 		}
 
 		this.endTime = Time();
 		this.paused = true;
 
-		if (GetDeveloperLevel())
+		if (GetDeveloperLevel() && this.verbose)
 			printl ("Timer paused at " + this.endTime);
 
 		return this.endTime;
@@ -78,7 +83,7 @@ class Timer
 	{
 		if (!this.paused)
 		{
-			printl ("Timer class: Resume() error - Timer is not paused");
+			if (this.verbose) printl ("Timer class: Resume() error - Timer is not paused");
 			return;
 		}
 
@@ -87,7 +92,7 @@ class Timer
 		this.endTime = 0.0;
 		this.paused = false;
 
-		if (GetDeveloperLevel())
+		if (GetDeveloperLevel() && this.verbose)
 			printl ("Timer resumed at " + resumeTime);
 
 		return resumeTime;
@@ -97,7 +102,7 @@ class Timer
 	{
 		if (!this.started)
 		{
-			printl ("Timer class: Stop() error - Timer has not started yet.");
+			if (this.verbose) printl ("Timer class: Stop() error - Timer has not started yet.");
 			return;
 		}
 
@@ -108,7 +113,7 @@ class Timer
 		this.running = false;
 		this.paused = false;
 
-		if (GetDeveloperLevel())
+		if (GetDeveloperLevel() && this.verbose)
 			printl ("Timer ended at " + this.endTime);
 
 		return this.endTime;
@@ -120,7 +125,7 @@ class Timer
 
 		if (!_time && !this.started)
 		{
-			printl ("Timer class: GetTime() error - Timer has not started yet.");
+			if (this.verbose) printl ("Timer class: GetTime() error - Timer has not started yet.");
 			return timeArr;
 		}
 
@@ -151,7 +156,7 @@ class Timer
 	{
 		if (!this.startTime)
 		{
-			printl ("Timer class: GetStartTime() error - Timer has not started yet.");
+			if (this.verbose) printl ("Timer class: GetStartTime() error - Timer has not started yet.");
 			return array(4, 0.0);
 		}
 		return this.GetTime(this.startTime);
@@ -161,12 +166,12 @@ class Timer
 	{
 		if (!this.startTime)
 		{
-			printl ("Timer class: GetEndTime() error - Timer has not started yet.");
+			if (this.verbose) printl ("Timer class: GetEndTime() error - Timer has not started yet.");
 			return array(4, 0.0);
 		}
 		if (!this.endTime)
 		{
-			printl ("Timer class: GetEndTime() error - Timer has not ended yet. Returning current time.");
+			if (this.verbose) printl ("Timer class: GetEndTime() error - Timer has not ended yet. Returning current time.");
 			return this.GetTime(Time());
 		}
 
@@ -258,5 +263,10 @@ class Timer
 	function Paused ()
 	{
 		return this.paused;
+	}
+
+	function Expired ()
+	{
+		return (Time() - this.startTime > maxTime);
 	}
 }
