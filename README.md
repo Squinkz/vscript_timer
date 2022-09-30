@@ -71,7 +71,7 @@ myTimer.Reset();	// resets the timer called myTimer. Started() will return false
 Besides being a timer module, this module is also useful for converting from seconds to other time units (hours, minutes, seconds, milliseconds).
 You can use the GetTime() and GetTimeString() functions to do this, as they accept an optional time parameter:
 ```javascript
-local time = myTimer.GetTime (5616.357);	// returns an array of float values
+local time = myTimer.GetTime (5616.357);	// returns an array of integer values
 						// index 0 = hours 		(1)
 						// index 1 = minutes		(33)
 						// index 2 = seconds		(36)
