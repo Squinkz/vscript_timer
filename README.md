@@ -21,7 +21,7 @@ myTimer.Start();				// start counting indefinitely
 ```
 ```javascript
 myTimer.Stop();					// stop counting
-local myElapsedTime = myTimer.GetTime();	// returns an array of float values
+local myElapsedTime = myTimer.GetTime();	// returns an array of integer values
 						// index 0 = hours
 						// index 1 = minutes
 						// index 2 = seconds
